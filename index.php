@@ -9,7 +9,7 @@
 	</head>
 	<body>
 		<div class="ical">
-			<?php echo file_get_contents('https://api.veracross.com/catlin/subscribe/BE79FB23-3D0E-41D3-9F55-C3C7D9DE4AB3.ics'); ?>
+			<?php echo file_get_contents('https://api.veracross.com/catlin/subscribe/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.ics'); ?>
 		</div>
 	</body>
 </html>
