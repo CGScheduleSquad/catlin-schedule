@@ -16,11 +16,13 @@
 	      <h4>Subscription Link</h4>
 				<br>
 				<br>
-				<form method="get">
+				<div class="input-field">
           <input placeholder="Paste subscription URL here" id="url" type="text" name="url">
-					<br>
-					<button class="modal-close waves-effect waves-green btn-flat" type="submit" name="action">Submit</button>
-				</form>
+          <label for="url">Subscription URL</label>
+        </div>
+	    </div>
+			<div class="modal-footer">
+	      <button class="modal-close waves-effect waves-green btn-flat submit-url">Submit</button>
 	    </div>
 	  </div>
 	</body>
