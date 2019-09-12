@@ -8,16 +8,18 @@
 		<title>CGS Schedule</title>
 	</head>
 	<body>
-		<pre class="ical"><?php echo file_get_contents($_GET['url']); ?></pre>
+		<pre class="ical">
+			<?php echo file_get_contents(str_replace('webcal', 'https', $_GET['url'])); ?>
+		</pre>
 		<div id="login" class="modal">
 	    <div class="modal-content">
-	      <h4>Subscribe to <i>iCal</i></h4>
+	      <h4>Subscription Link</h4>
 				<br>
 				<br>
 				<form method="get">
           <input placeholder="Paste subscription URL here" id="url" type="text" name="url">
 					<br>
-					<button class="modal-close waves-effect waves-green btn-flat" type="submit" name="action">Agree</button>
+					<button class="modal-close waves-effect waves-green btn-flat" type="submit" name="action">Submit</button>
 				</form>
 	    </div>
 	  </div>
