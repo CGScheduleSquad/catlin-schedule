@@ -8,8 +8,18 @@
 		<title>CGS Schedule</title>
 	</head>
 	<body>
-		<div class="ical">
-			<?php echo file_get_contents('https://api.veracross.com/catlin/subscribe/XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX.ics'); ?>
-		</div>
+		<pre class="ical"><?php echo file_get_contents($_GET['url']); ?></pre>
+		<div id="login" class="modal">
+	    <div class="modal-content">
+	      <h4>Subscribe to <i>iCal</i></h4>
+				<br>
+				<br>
+				<form method="get">
+          <input placeholder="Paste subscription URL here" id="url" type="text" name="url">
+					<br>
+					<button class="modal-close waves-effect waves-green btn-flat" type="submit" name="action">Agree</button>
+				</form>
+	    </div>
+	  </div>
 	</body>
 </html>
