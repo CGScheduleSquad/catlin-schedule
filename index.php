@@ -5,6 +5,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.3.0/ical.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 		<script src="script.js"></script>
+		<link rel="shortcut icon" href="https://inside.catlin.edu/scripts/sched/favicon.ico">
 		<title>CGS Schedule</title>
 	</head>
 	<body>
