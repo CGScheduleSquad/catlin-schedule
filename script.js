@@ -50,7 +50,6 @@ window.addEventListener('load', () => {
         let dtend = getDT('end', a[1]);
         let location = getLocation(a[1]);
         let summary = getSummary(a[1]);
-        console.log(summary);
       }
     });
   } catch {
