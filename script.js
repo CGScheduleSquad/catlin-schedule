@@ -38,7 +38,6 @@ const getSummary = matrix => {
 let allEvents;
 
 window.addEventListener('load', () => {
-  M.AutoInit();
   try {
     let raw = document.getElementsByClassName('ical')[0].innerText.trim();
     document.getElementsByClassName('ical')[0].innerText = '';
@@ -54,13 +53,14 @@ window.addEventListener('load', () => {
         let summary = getSummary(a[1]);
         return {date:dtstart, startTime:new Date(0, 0, 0, dtstart.getHours(), dtstart.getMinutes()), title:summary.join(" - "), subtitle:"Block "+description[0].Block, rowSpan: 1}
     });
+    document.getElementById('login').style.display = 'none';
 
       $('#schedule').show();
 
       loadSchedule();
 
   } catch {
-      $('#login').show();
+    M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
     document.getElementsByClassName('submit-url')[0].addEventListener('click', () => {
       location.search = `?url=${ document.getElementById('url').value }`;
@@ -402,4 +402,3 @@ function getLastFriday(date) {
     return d;
 }
 //</editor-fold>
-
