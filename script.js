@@ -1,3 +1,15 @@
+const colors = {
+  0: '#c0c0c0',
+  1: '#ffce51',
+  2: '#a67fb9',
+  3: '#e67326',
+  4: '#00abbc',
+  5: '#aac02c',
+  6: '#ef4957',
+  7: '#ff75f2',
+  'free': '#fff'
+};
+
 const inMatrix = (query, matrix) => {
   let res = -1;
   matrix.forEach((el, i) => { if (el.includes(query)) res = i; });
