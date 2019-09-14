@@ -1,4 +1,8 @@
-.ical {
+.ical, #login {
+  display: none;
+}
+
+#schedule {
   display: none;
 }
 

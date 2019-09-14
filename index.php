@@ -37,7 +37,7 @@
       <button class="modal-close waves-effect waves-green btn-flat submit-url">Submit</button>
     </div>
   </div>
-  <div id="schedule" style="display: none">
+  <div id="schedule">
     <table class="controls">
       <tbody>
         <tr>
@@ -68,39 +68,99 @@
           </tr>
           <tr class="mins45">
             <td class="times mins45">8:00-8:45</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
           </tr>
           <tr class="mins25">
             <td class="times mins25">8:45-9:15</td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">Early Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">Early Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">Early Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">Early Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">Early Flex</span></td>
           </tr>
           <tr class="mins10">
             <td class="times mins10">9:20-9:30</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
           </tr>
           <tr class="mins10">
             <td class="times mins10">9:30-9:40</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
+            <td rowspan="1" class="period">Break</td>
           </tr>
           <tr class="mins45">
             <td class="times mins45">9:45-10:30</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
           </tr>
           <tr class="mins45">
             <td class="times mins45">10:35-11:20</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
           </tr>
           <tr class="mins25">
             <td class="times mins25">11:20-11:50</td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">AM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">AM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">AM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">AM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">AM Flex</span></td>
           </tr>
           <tr class="mins35">
             <td class="times mins35">11:55-12:30</td>
+            <td rowspan="1" class="period">Co-Curric</td>
+            <td rowspan="1" class="period">Co-Curric</td>
+            <td rowspan="1" class="period">Co-Curric</td>
+            <td rowspan="1" class="period">Co-Curric</td>
+            <td rowspan="1" class="period">Co-Curric</td>
           </tr>
           <tr class="mins35">
             <td class="times mins35">12:30-1:05</td>
+            <td rowspan="1" class="period">Lunch</td>
+            <td rowspan="1" class="period">Lunch</td>
+            <td rowspan="1" class="period">Lunch</td>
+            <td rowspan="1" class="period">Lunch</td>
+            <td rowspan="1" class="period">Lunch</td>
           </tr>
           <tr class="mins25">
             <td class="times mins25">1:10-1:40</td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">PM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">PM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">PM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">PM Flex</span></td>
+            <td rowspan="1" class="period">Free - <span class="subtitle">PM Flex</span></td>
           </tr>
           <tr class="mins45">
             <td class="times mins45">1:40-2:25</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
           </tr>
           <tr class="mins45">
             <td class="times mins45">2:30-3:15</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
+            <td rowspan="1" class="period">Free</td>
           </tr>
         </tbody>
       </table>
