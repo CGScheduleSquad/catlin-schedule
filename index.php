@@ -9,10 +9,7 @@
   <meta http-equiv="pragma" content="no-cache">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="shortcut icon" href="https://inside.catlin.edu/scripts/sched/favicon.ico">
-  <?php
-    $str = '<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css>';
-    echo isset($_GET['url']) ? '' : $str;
-  ?>
+  <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.3.0/ical.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
