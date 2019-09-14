@@ -128,11 +128,14 @@ function loadSchedule() {
 
     // left/right arrows
     let navigationArrows = $('td.arrows a');
-    navigationArrows.first().prop('href', '?date=' + dateToVeracrossDate(previousMonday));
-    navigationArrows.last().prop('href', '?date=' + dateToVeracrossDate(nextMonday));
+    navigationArrows.first().prop('href', '?date=' + dateToVeracrossDate(previousMonday) + "&url=" + new URL(window.location.href).searchParams.get("url"));
+    navigationArrows.last().prop('href', '?date=' + dateToVeracrossDate(nextMonday) + "&url=" + new URL(window.location.href).searchParams.get("url"));
+
+    // this week
+    $('#this-week a').prop('href', "?url=" + new URL(window.location.href).searchParams.get("url"));
 
     // return to portal link
-    $('td.controls.links a').last().prop('href', '/catlin/student/student/daily-schedule?date=' + dateToVeracrossDate(seedDate));
+    $('td.controls.links a').last().prop('href', 'https://portals.veracross.com/catlin/student/student/daily-schedule?date=' + dateToVeracrossDate(seedDate));
 }
 
 function getDatesForWeek(mondayDate) { // [2019-9-16, 2019-9-17, etc...]
@@ -189,7 +192,7 @@ function appendDay(daySchedule) {
     // append the header with a link to the veracross page
     $('table.sched.main > tbody > tr:nth-child(1)').append(`
     <td class="daylabel">
-      <a href="/catlin/student/student/daily-schedule?date=${ dateToVeracrossDate(daySchedule.date) }">
+      <a href="https://portals.veracross.com/catlin/student/student/daily-schedule?date=${ dateToVeracrossDate(daySchedule.date) }">
         <b>
           ${ days[daySchedule.date.getDay()] } ${ months[daySchedule.date.getMonth()] } ${ daySchedule.date.getDate() + (!daySchedule.letter ? '' : ` (${ daySchedule.letter })`) }
         </b>

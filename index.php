@@ -48,7 +48,7 @@
             <td class="controls links">
                 <a href="https://portals.veracross.com/catlin/student/student/daily-schedule">Today</a>
             </td>
-            <td class="controls links">
+            <td id="this-week" class="controls links">
                 <a href="?">This Week</a>
             </td>
             <td class="controls links">
