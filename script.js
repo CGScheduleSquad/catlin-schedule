@@ -35,34 +35,44 @@ const getSummary = matrix => {
   return i > -1 ? matrix[i][3].split(' - ') : ['N/A', 'N/A', 'N/A'];
 };
 
-const parse = ev => {
+const parse = (ev, i) => {
   let start = new Date(ev.dtstart);
   let end = new Date(ev.dtend);
 };
 
 window.addEventListener('load', () => {
   try {
+    let today = new Date();
+    let days = [];
+    let letters = [];
+    for (let i = 1 - today.getDay(); i < 7 - today.getDay(); i++) {
+      let temp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
+      temp.setDate(today.getDate() + i);
+      days.push(temp);
+    }
     let raw = document.getElementsByClassName('ical')[0].innerText.trim();
     document.getElementsByClassName('ical')[0].innerText = '';
 
     let ical = ICAL.parse(raw);
     let events = ical[2];
-    events.filter(a => a[1].length === 8).forEach(a => {
+    events.filter(a => a[1].length === 8).forEach((a, i) => {
       let description = getDescription(a[1]);
       let dtstart = getDT('start', a[1]);
       let dtend = getDT('end', a[1]);
       let location = getLocation(a[1]);
       let summary = getSummary(a[1]);
-      parse({ description, dtstart, dtend, location, summary });
+      if (dtstart.getTime() > days[0].getTime() && dtend.getTime() < days[5].getTime()) {
+        parse({ description, dtstart, dtend, location, summary }, i);
+        let letter = description.day[description.day.length - 1];
+        if (!letters.includes(` (${ letter })`)) {
+          letters.push(` (${ letter })`);
+        }
+      }
+    });
+    Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
+      day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
     });
     document.getElementById('schedule').style.display = 'block';
-
-    let today = new Date();
-    let monday = new Date();
-    monday.setDate(today.getDay() === 0 ? today.getDate() + 1 : today.getDate() - (today.getDay() - 1));
-    Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
-      day.firstChild.innerText = `${ day.innerText } ${ months[monday.getMonth()] } ${ monday.getDate() + i }` // TODO: month changes during the week
-    });
     // loadSchedule();
   } catch {
     document.getElementById('login').style.display = '';
