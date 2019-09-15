@@ -39,6 +39,82 @@ const getSummary = matrix => {
 
 const diff = (d1, d2) => Math.floor((Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate()) - Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate()) ) / (1000 * 60 * 60 * 24));
 
+const addClasses = (cl, i) => {
+  let el;
+  switch (`${ cl.dtstart.getHours() }:${ cl.dtstart.getMinutes() }`) {
+    case '8:0':
+      el = document.getElementById(`${ i }-0`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      if (cl.dtend.getMinutes() === 15) {
+        document.getElementById(`${ i }-1`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
+      break;
+    case '9:20':
+      el = document.getElementById(`${ i }-2`);
+      el.style.background = colors[0];
+      el.innerHTML = `${ cl.summary[0] }<span class="subtitle"> - ${ cl.description.room }</span>`;
+      break;
+    case '9:45':
+      el = document.getElementById(`${ i }-4`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      break;
+    case '10:35':
+      el = document.getElementById(`${ i }-5`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      if (cl.dtend.getMinutes() === 50) {
+        document.getElementById(`${ i }-6`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
+      break;
+    case '13:10':
+      el = document.getElementById(`${ i }-9`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      document.getElementById(`${ i }-10`).style.display = 'none';
+      el.setAttribute('rowspan', 2);
+      break;
+    case '13:40':
+      el = document.getElementById(`${ i }-10`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      break;
+    case '14:30':
+      el = document.getElementById(`${ i }-11`);
+      el.style.background = colors[cl.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+      `;
+      break;
+  }
+  // TODO: Simplify switch
+};
+
 window.addEventListener('load', () => {
   try {
     let today = new Date();
@@ -73,26 +149,7 @@ window.addEventListener('load', () => {
       day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
     });
     classes.forEach((day, i) => {
-      day.forEach(cl => {
-        if (cl.dtstart.getHours() === 8 && cl.dtstart.getMinutes() === 0) {
-          let el = document.getElementById(`${ i }-0`);
-          el.style.background = colors[cl.description.block[0]];
-          el.innerHTML = `
-            <span class="coursename">${ cl.summary[0] }</span>
-            <br>
-            <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
-          `;
-          if (cl.dtend.getMinutes() === 15) {
-            document.getElementById(`${ i }-1`).style.display = 'none';
-            el.setAttribute('rowspan', 2);
-          }
-        } else if (cl.dtstart.getHours() === 9 && cl.dtstart.getMinutes() === 20) {
-          let el = document.getElementById(`${ i }-2`);
-          el.style.background = colors[0];
-          el.innerHTML = `${ cl.summary[0] }<span class="subtitle"> - ${ cl.description.room }</span>`;
-        }
-        // TODO: Finish adding all classes for regular days
-      });
+      day.forEach(cl => addClasses(cl, i));
     });
     document.getElementById('schedule').style.display = 'block';
   } catch {
