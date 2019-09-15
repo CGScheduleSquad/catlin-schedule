@@ -1,5 +1,7 @@
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+const colors = ['#c0c0c0', '#ffce51', '#a67fb9', '#e67326', '#00abbd', '#aac02c', '#ef4957', '#ff75f2'];
+
 const inMatrix = (query, matrix) => {
   let res = -1;
   matrix.forEach((el, i) => { if (el.includes(query)) res = i; });
@@ -35,16 +37,14 @@ const getSummary = matrix => {
   return i > -1 ? matrix[i][3].split(' - ') : ['N/A', 'N/A', 'N/A'];
 };
 
-const parse = (ev, i) => {
-  let start = new Date(ev.dtstart);
-  let end = new Date(ev.dtend);
-};
+const diff = (d1, d2) => Math.floor((Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate()) - Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate()) ) / (1000 * 60 * 60 * 24));
 
 window.addEventListener('load', () => {
   try {
     let today = new Date();
     let days = [];
     let letters = [];
+    let classes = [[], [], [], [], []];
     for (let i = 1 - today.getDay(); i < 7 - today.getDay(); i++) {
       let temp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
       temp.setDate(today.getDate() + i);
@@ -55,14 +55,14 @@ window.addEventListener('load', () => {
 
     let ical = ICAL.parse(raw);
     let events = ical[2];
-    events.filter(a => a[1].length === 8).forEach((a, i) => {
+    events.filter(a => a[1].length === 8).forEach(a => {
       let description = getDescription(a[1]);
       let dtstart = getDT('start', a[1]);
       let dtend = getDT('end', a[1]);
       let location = getLocation(a[1]);
       let summary = getSummary(a[1]);
       if (dtstart.getTime() > days[0].getTime() && dtend.getTime() < days[5].getTime()) {
-        parse({ description, dtstart, dtend, location, summary }, i);
+        classes[diff(days[0], dtstart)].push({ description, dtstart, dtend, location, summary });
         let letter = description.day[description.day.length - 1];
         if (!letters.includes(` (${ letter })`)) {
           letters.push(` (${ letter })`);
@@ -72,8 +72,29 @@ window.addEventListener('load', () => {
     Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
       day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
     });
+    classes.forEach((day, i) => {
+      day.forEach(cl => {
+        if (cl.dtstart.getHours() === 8 && cl.dtstart.getMinutes() === 0) {
+          let el = document.getElementById(`${ i }-0`);
+          el.style.background = colors[cl.description.block[0]];
+          el.innerHTML = `
+            <span class="coursename">${ cl.summary[0] }</span>
+            <br>
+            <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+          `;
+          if (cl.dtend.getMinutes() === 15) {
+            document.getElementById(`${ i }-1`).style.display = 'none';
+            el.setAttribute('rowspan', 2);
+          }
+        } else if (cl.dtstart.getHours() === 9 && cl.dtstart.getMinutes() === 20) {
+          let el = document.getElementById(`${ i }-2`);
+          el.style.background = colors[0];
+          el.innerHTML = `${ cl.summary[0] }<span class="subtitle"> - ${ cl.description.room }</span>`;
+        }
+        // TODO: Finish adding all classes for regular days
+      });
+    });
     document.getElementById('schedule').style.display = 'block';
-    // loadSchedule();
   } catch {
     document.getElementById('login').style.display = '';
     M.AutoInit();
