@@ -15,7 +15,6 @@
   ?>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.3.0/ical.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="script.js"></script>
 </head>
@@ -29,8 +28,13 @@
       <br>
       <br>
       <div class="input-field">
-        <input placeholder="Paste subscription URL here" id="url" type="text" name="url">
-        <label for="url">Subscription URL</label>
+        <input placeholder="Paste subscription URL here" id="schedules" type="text" name="url">
+        <label for="url">Class Schedules</label>
+      </div>
+      <br>
+      <div class="input-field">
+        <input placeholder="Paste subscription URL here" id="student" type="text" name="url">
+        <label for="url">Student Calendar</label>
       </div>
     </div>
     <div class="modal-footer">
