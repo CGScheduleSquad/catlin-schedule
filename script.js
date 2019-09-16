@@ -1,13 +1,16 @@
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+// Block colors
 const colors = ['#c0c0c0', '#ffce51', '#a67fb9', '#e67326', '#00abbd', '#aac02c', '#ef4957', '#ff75f2'];
 
+// Checks if an element is in a matrix
 const inMatrix = (query, matrix) => {
   let res = -1;
   matrix.forEach((el, i) => { if (el.includes(query)) res = i; });
   return res;
 };
 
+// Gets and parses description for classes
 const getDescription = matrix => {
   let i = inMatrix('description', matrix);
   let description = {};
@@ -22,25 +25,31 @@ const getDescription = matrix => {
   return description;
 };
 
+// Gets start and end times for events
 const getDT = (time, matrix) => {
   let i = inMatrix(`dt${ time }`, matrix);
   return i > -1 ? new Date(matrix[i][3]) : null;
 };
 
+// Gets location for events
 const getLocation = matrix => {
   let i = inMatrix('location', matrix);
   return i > -1 ? matrix[i][3] : 'N/A';
 };
 
+// Gets and parses summary for events
 const getSummary = matrix => {
   let i = inMatrix('summary', matrix);
   return i > -1 ? matrix[i][3].split(' - ') : ['N/A', 'N/A', 'N/A'];
 };
 
+// Gets differnece in days
 const diff = (d1, d2) => Math.floor((Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate()) - Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate()) ) / (1000 * 60 * 60 * 24));
 
+// Gets difference in minutes
 const mDiff = (d1, d2) => Math.abs(Math.round((d1.getTime() - d2.getTime()) / 1000 / 60));
 
+// Adds regular schedule classes
 const addClasses = (cl, i) => {
   let el;
   switch (`${ cl.dtstart.getHours() }:${ cl.dtstart.getMinutes() }`) {
@@ -119,6 +128,7 @@ const addClasses = (cl, i) => {
   // TODO: Simplify switch
 };
 
+// Add classes on special days
 const addSpecialClasses = cl => {
   let html = '';
   cl.forEach((c, i) => {
@@ -158,6 +168,7 @@ const addSpecialClasses = cl => {
   return html;
 };
 
+// Parses location.search
 const getQuery = () => {
   let parsed = {};
   location.search.substring(1, location.search.length).split('&').forEach(a => {
@@ -170,6 +181,7 @@ const getQuery = () => {
 let today = getQuery().date !== undefined ? new Date(parseInt(getQuery().date)) : new Date();
 let days = [];
 
+// All rendering happens here
 window.addEventListener('load', () => {
   try {
     let letters = [];
