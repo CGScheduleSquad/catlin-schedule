@@ -39,16 +39,18 @@ const getSummary = matrix => {
 
 const diff = (d1, d2) => Math.floor((Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate()) - Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate()) ) / (1000 * 60 * 60 * 24));
 
+const mDiff = (d1, d2) => Math.abs(Math.round((d1.getTime() - d2.getTime()) / 1000 / 60));
+
 const addClasses = (cl, i) => {
   let el;
   switch (`${ cl.dtstart.getHours() }:${ cl.dtstart.getMinutes() }`) {
     case '8:0':
       el = document.getElementById(`${ i }-0`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
       if (cl.dtend.getMinutes() === 15) {
         document.getElementById(`${ i }-1`).style.display = 'none';
@@ -62,20 +64,20 @@ const addClasses = (cl, i) => {
       break;
     case '9:45':
       el = document.getElementById(`${ i }-4`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
       break;
     case '10:35':
       el = document.getElementById(`${ i }-5`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
       if (cl.dtend.getMinutes() === 50) {
         document.getElementById(`${ i }-6`).style.display = 'none';
@@ -84,42 +86,58 @@ const addClasses = (cl, i) => {
       break;
     case '13:10':
       el = document.getElementById(`${ i }-9`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
-      document.getElementById(`${ i }-10`).style.display = 'none';
-      el.setAttribute('rowspan', 2);
+      if (cl.dtend.getMinutes() === 25) {
+        document.getElementById(`${ i }-10`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
       break;
     case '13:40':
       el = document.getElementById(`${ i }-10`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
       break;
     case '14:30':
       el = document.getElementById(`${ i }-11`);
-      el.style.background = colors[cl.description.block[0]];
+      el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
       el.innerHTML = `
         <span class="coursename">${ cl.summary[0] }</span>
         <br>
-        <span class="subtitle">${ cl.description.room } - ${ cl.summary[1] }</span>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
       `;
       break;
   }
   // TODO: Simplify switch
 };
 
-const addLateClasses = cl => {
-  cl.forEach((c, i) => {
-    let difference = (c.dtend - c.dtstart);
-    console.log(difference);
+const addSpecialClasses = cl => {
+  let html = '';
+  cl.forEach(c => {
+    let hourStart = c.dtstart.getHours() > 12 ? c.dtstart.getHours() - 12 : c.dtstart.getHours();
+    let hourEnd = c.dtend.getHours() > 12 ? c.dtend.getHours() - 12 : c.dtend.getHours();
+    let minStart = c.dtstart.getMinutes() < 10 ? `0${ c.dtstart.getMinutes() }` : c.dtstart.getMinutes();
+    let minEnd = c.dtend.getMinutes() < 10 ? `0${ c.dtend.getMinutes() }` : c.dtend.getMinutes();
+    html += `
+      <tr>
+        <td class="times mins${ mDiff(c.dtstart, c.dtend) }">${ hourStart }:${ minStart }-${ hourEnd }:${ minEnd }</td>
+        <td class="period" style="background: ${ colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]] };">
+          <span class="coursename">${ c.summary[0] }</span>
+          <br>
+          <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+        </td>
+      </tr>
+    `;
   });
+  return html;
 };
 
 window.addEventListener('load', () => {
@@ -175,9 +193,20 @@ window.addEventListener('load', () => {
         Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
           day.firstChild.innerText.includes(`(${ late })`) && Array.from(document.getElementsByClassName(i)).forEach((el, j) => {
             if (j === 0) {
-              el.setAttribute('class', `period mins60 ${ i }`);
-              el.innerText = 'Late Start';
-              addLateClasses(classes[i]);
+              el.setAttribute('class', `specialday`);
+              el.setAttribute('rowspan', 12);
+              el.innerHTML = `
+                <table class="sched week main">
+                  <tbody>
+                    <tr>
+                      <td colspan="12" class="period mins60">Late Start</td>
+                    </tr>
+                    ${ addSpecialClasses(classes[i]) }
+                  </tbody>
+                </table>
+              `;
+            } else {
+              el.style.display = 'none';
             }
           });
         });
