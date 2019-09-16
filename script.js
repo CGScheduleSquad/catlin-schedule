@@ -24,7 +24,7 @@ const getDescription = matrix => {
 
 const getDT = (time, matrix) => {
   let i = inMatrix(`dt${ time }`, matrix);
-  return i > -1 ? new Date(matrix[i][3]) : [];
+  return i > -1 ? new Date(matrix[i][3]) : null;
 };
 
 const getLocation = matrix => {
@@ -115,6 +115,13 @@ const addClasses = (cl, i) => {
   // TODO: Simplify switch
 };
 
+const addLateClasses = cl => {
+  cl.forEach((c, i) => {
+    let difference = (c.dtend - c.dtstart);
+    console.log(difference);
+  });
+};
+
 window.addEventListener('load', () => {
   try {
     let today = new Date();
@@ -126,17 +133,28 @@ window.addEventListener('load', () => {
       temp.setDate(today.getDate() + i);
       days.push(temp);
     }
-    let raw = document.getElementsByClassName('ical')[0].innerText.trim();
+    let raw = {
+      schedules: document.getElementsByClassName('ical')[0].innerText.trim(),
+      student: document.getElementsByClassName('ical')[1].innerText.trim()
+    };
     document.getElementsByClassName('ical')[0].innerText = '';
+    document.getElementsByClassName('ical')[1].innerText = '';
 
-    let ical = ICAL.parse(raw);
-    let events = ical[2];
-    events.filter(a => a[1].length === 8).forEach(a => {
-      let description = getDescription(a[1]);
-      let dtstart = getDT('start', a[1]);
-      let dtend = getDT('end', a[1]);
-      let location = getLocation(a[1]);
-      let summary = getSummary(a[1]);
+    let schedules = ICAL.parse(raw.schedules);
+    let student = ICAL.parse(raw.student);
+    let events = {
+      schedules: schedules[2],
+      student: student[2]
+    };
+    events.student = events.student.filter(a => {
+      let [dtstart, dtend, summary] = [getDT('start', a[1]), getDT('end', a[1]), getSummary(a[1])];
+      return ((/\(Late Start/.test(summary[0]) && dtstart.getTime() < days[5].getTime()) || (dtend !== null && dtend.getTime() < days[5].getTime())) && dtstart.getTime() > days[0].getTime();
+    }).map(a => {
+      let [dtstart, dtend, location, summary] = [getDT('start', a[1]), getDT('end', a[1]), getLocation(a[1]), getSummary(a[1])[0]];
+      return { dtstart, dtend, location, summary };
+    });
+    events.schedules.filter(a => a[1].length === 8).forEach(a => {
+      let [description, dtstart, dtend, location, summary] = [getDescription(a[1]), getDT('start', a[1]), getDT('end', a[1]), getLocation(a[1]), getSummary(a[1])];
       if (dtstart.getTime() > days[0].getTime() && dtend.getTime() < days[5].getTime()) {
         classes[diff(days[0], dtstart)].push({ description, dtstart, dtend, location, summary });
         let letter = description.day[description.day.length - 1];
@@ -151,13 +169,27 @@ window.addEventListener('load', () => {
     classes.forEach((day, i) => {
       day.forEach(cl => addClasses(cl, i));
     });
+    events.student.forEach(a => {
+      if (a.summary.includes('(Late Start')) {
+        let late = a.summary[a.summary.length - 2];
+        Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
+          day.firstChild.innerText.includes(`(${ late })`) && Array.from(document.getElementsByClassName(i)).forEach((el, j) => {
+            if (j === 0) {
+              el.setAttribute('class', `period mins60 ${ i }`);
+              el.innerText = 'Late Start';
+              addLateClasses(classes[i]);
+            }
+          });
+        });
+      }
+    });
     document.getElementById('schedule').style.display = 'block';
   } catch {
     document.getElementById('login').style.display = '';
     M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
     document.getElementsByClassName('submit-url')[0].addEventListener('click', () => {
-      location.search = `?url=${ document.getElementById('url').value }`;
+      location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`;
     });
   }
 });

@@ -11,7 +11,7 @@
   <link rel="shortcut icon" href="https://inside.catlin.edu/scripts/sched/favicon.ico">
   <?php
     $str = '<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css>';
-    echo isset($_GET['url']) ? '' : $str;
+    echo isset($_GET['schedules']) ? '' : $str;
   ?>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ical.js/1.3.0/ical.min.js"></script>
@@ -19,8 +19,11 @@
   <script src="script.js"></script>
 </head>
 <body>
-  <pre class="ical">
-    <?php echo file_get_contents(str_replace('webcal', 'http', $_GET['url'])); ?>
+  <pre class="ical" id="ical-schedules">
+    <?php echo file_get_contents(str_replace('webcal', 'http', $_GET['schedules'])); ?>
+  </pre>
+  <pre class="ical" id="ical-student">
+    <?php echo file_get_contents(str_replace('webcal', 'http', $_GET['student'])); ?>
   </pre>
   <div id="login" class="modal">
     <div class="modal-content">
