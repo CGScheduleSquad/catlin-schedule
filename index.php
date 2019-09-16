@@ -49,7 +49,7 @@
       <tbody>
         <tr>
           <td class="controls arrows">
-            <a><img src="https://inside.catlin.edu/scripts/sched/left48.png"></a>
+            <a id="backwards"><img src="https://inside.catlin.edu/scripts/sched/left48.png"></a>
           </td>
           <td class="controls links">
             <a href="https://portals.veracross.com/catlin/student/student/daily-schedule">Today</a>
@@ -61,7 +61,7 @@
             <a>Return To Portal</a>
           </td>
           <td class="controls arrows">
-            <a><img src="https://inside.catlin.edu/scripts/sched/right48.png"></a>
+            <a id="forwards"><img src="https://inside.catlin.edu/scripts/sched/right48.png"></a>
           </td>
         </tr>
       </tbody>

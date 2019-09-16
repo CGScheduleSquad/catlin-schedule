@@ -158,10 +158,20 @@ const addSpecialClasses = cl => {
   return html;
 };
 
+const getQuery = () => {
+  let parsed = {};
+  location.search.substring(1, location.search.length).split('&').forEach(a => {
+    let [k, v] = a.split('=');
+    parsed[k] = v;
+  });
+  return parsed;
+};
+
+let today = getQuery().date !== undefined ? new Date(parseInt(getQuery().date)) : new Date();
+let days = [];
+
 window.addEventListener('load', () => {
   try {
-    let today = new Date();
-    let days = [];
     let letters = [];
     let classes = [[], [], [], [], []];
     for (let i = 1 - today.getDay(); i < 7 - today.getDay(); i++) {
@@ -231,13 +241,12 @@ window.addEventListener('load', () => {
       }
     });
     document.getElementById('schedule').style.display = 'block';
-  } catch (e) {
-    console.error(e);
+    document.getElementById('forwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() + 7) }`);
+    document.getElementById('backwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() - 7) }`);
+  } catch {
     document.getElementById('login').style.display = '';
     M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
-    document.getElementsByClassName('submit-url')[0].addEventListener('click', () => {
-      location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`;
-    });
+    document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
   }
 });
