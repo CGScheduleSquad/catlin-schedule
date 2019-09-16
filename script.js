@@ -210,7 +210,19 @@ window.addEventListener('load', () => {
       }
     });
     Array.from(document.getElementsByClassName('daylabel')).forEach((day, i) => {
-      day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
+      if (letters[i] === undefined) {
+        day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }`;
+        Array.from(document.getElementsByClassName(i)).forEach((el, j) => {
+          if (j === 0) {
+            el.setAttribute('rowspan', 12);
+            el.innerText = 'No Events Planned';
+          } else {
+            el.style.display = 'none';
+          }
+        });
+      } else {
+        day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
+      }
     });
     classes.forEach((day, i) => {
       day.forEach(cl => addClasses(cl, i));
@@ -238,12 +250,31 @@ window.addEventListener('load', () => {
             }
           });
         });
+      } else {
+        let el;
+        switch (`${ a.dtstart.getHours() }:${ a.dtstart.getMinutes() }`) {
+          case '9:15':
+            el = document.getElementById(`${ a.dtstart.getDay() - 1 }-2`);
+            el.style.background = colors[0];
+            el.innerHTML = a.summary;
+            if (a.dtend.getMinutes() === 45) {
+              document.getElementById(`${ a.dtstart.getDay() - 1 }-3`).style.display = 'none';
+              el.setAttribute('rowspan', 2);
+            }
+            break;
+          case '11:55':
+            el = document.getElementById(`${ a.dtstart.getDay() - 1 }-7`);
+            el.style.background = colors[0];
+            el.innerHTML = `<span class="coursename">${ a.summary }</span>`;
+            break;
+        }
       }
     });
     document.getElementById('schedule').style.display = 'block';
     document.getElementById('forwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() + 7) }`);
     document.getElementById('backwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() - 7) }`);
-  } catch {
+  } catch (e) {
+    console.error(e);
     document.getElementById('login').style.display = '';
     M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
