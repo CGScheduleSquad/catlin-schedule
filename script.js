@@ -137,48 +137,8 @@ const addClasses = (cl, i) => {
   // TODO: Simplify switch
 };
 
-// Add classes on special days (unused right now)
-const addSpecialClasses = cl => {
-  let html = '';
-  cl.forEach((c, i) => {
-    let hourStart = c.dtstart.getHours() > 12 ? c.dtstart.getHours() - 12 : c.dtstart.getHours();
-    let hourEnd = c.dtend.getHours() > 12 ? c.dtend.getHours() - 12 : c.dtend.getHours();
-    let minStart = c.dtstart.getMinutes() < 10 ? `0${ c.dtstart.getMinutes() }` : c.dtstart.getMinutes();
-    let minEnd = c.dtend.getMinutes() < 10 ? `0${ c.dtend.getMinutes() }` : c.dtend.getMinutes();
-    if (cl[i - 1] !== undefined) {
-      if (mDiff(cl[i - 1].dtend, c.dtstart) > 5) {
-        let midStart = new Date(cl[i - 1].dtend.setMinutes(cl[i - 1].dtend.getMinutes() + 5));
-        let midEnd = new Date(c.dtstart.setMinutes(c.dtstart.getMinutes() - 5));
-        let hourStart1 = midStart.getHours() > 12 ? midStart.getHours() - 12 : midStart.getHours();
-        let hourEnd1 = midEnd.getHours() > 12 ? midEnd.getHours() - 12 : midEnd.getHours();
-        let minStart1 = midStart.getMinutes() < 10 ? `0${ midStart.getMinutes() }` : midStart.getMinutes();
-        let minEnd1 = midEnd.getMinutes() < 10 ? `0${ midEnd.getMinutes() }` : midEnd.getMinutes();
-        html += `
-          <tr>
-            <td class="times mins${ mDiff(midStart, midEnd) }">${ hourStart1 }:${ minStart1 }-${ hourEnd1 }:${ minEnd1 }</td>
-            <td class="period mins${ mDiff(midStart, midEnd) }">
-              <span class="coursename">Free</span>
-            </td>
-          </tr>
-        `;
-      }
-    }
-    html += `
-      <tr>
-        <td class="times mins${ mDiff(c.dtstart, c.dtend) }">${ hourStart }:${ minStart }-${ hourEnd }:${ minEnd }</td>
-        <td class="period mins${ mDiff(c.dtstart, c.dtend) }" style="background: ${ colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]] };">
-          <span class="coursename">${ c.summary[0] }</span>
-          <br>
-          <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
-        </td>
-      </tr>
-    `;
-  });
-  return html;
-};
-
 // Add classes on late start days
-const addLateClasses = cl => cl.forEach(c => {
+const addLateClasses = (cl, day) => cl.forEach(c => {
   let el;
   switch (`${ c.dtstart.getHours() }:${ c.dtstart.getMinutes() }`) {
     case '9:0':
@@ -249,6 +209,11 @@ const addLateClasses = cl => cl.forEach(c => {
       break;
   }
   // TODO: Simplify switch
+  if (day === 'C' || day === 'G') {
+    let assembly = document.getElementById('late-5');
+    assembly.innerText = 'Assembly';
+    assembly.style.background = colors[0];
+  }
 });
 
 // Parses location.search
@@ -317,6 +282,17 @@ window.addEventListener('load', () => {
         });
       } else {
         day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
+        if (letters[i] === ' (C)') {
+          let assembly = document.getElementById(`${ i }-6`);
+          assembly.innerText = 'Assembly';
+          assembly.style.background = colors[0];
+          assembly.setAttribute('rowspan', 2);
+          document.getElementById(`${ i }-7`).style.display = 'none';
+        } else if (letters[i] === ' (G)') {
+          let assembly = document.getElementById(`${ i }-7`);
+          assembly.innerText = 'Community';
+          assembly.style.background = colors[0];
+        }
       }
     });
     classes.forEach((day, i) => day.forEach(cl => addClasses(cl, i)));
@@ -377,7 +353,7 @@ window.addEventListener('load', () => {
                   </tbody>
                 </table>
               `;
-              addLateClasses(classes[i]);
+              addLateClasses(classes[i], day.innerText.split('(')[1][0]);
             } else {
               el.style.display = 'none';
             }
@@ -406,11 +382,50 @@ window.addEventListener('load', () => {
     document.getElementById('schedule').style.display = 'block';
     document.getElementById('forwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() + 7) }`);
     document.getElementById('backwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() - 7) }`);
-  } catch (e) {
-    console.error(e);
+  } catch {
     document.getElementById('login').style.display = '';
     M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
     document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
   }
 });
+
+// Add classes on special days (unused right now)
+const addSpecialClasses = cl => {
+  let html = '';
+  cl.forEach((c, i) => {
+    let hourStart = c.dtstart.getHours() > 12 ? c.dtstart.getHours() - 12 : c.dtstart.getHours();
+    let hourEnd = c.dtend.getHours() > 12 ? c.dtend.getHours() - 12 : c.dtend.getHours();
+    let minStart = c.dtstart.getMinutes() < 10 ? `0${ c.dtstart.getMinutes() }` : c.dtstart.getMinutes();
+    let minEnd = c.dtend.getMinutes() < 10 ? `0${ c.dtend.getMinutes() }` : c.dtend.getMinutes();
+    if (cl[i - 1] !== undefined) {
+      if (mDiff(cl[i - 1].dtend, c.dtstart) > 5) {
+        let midStart = new Date(cl[i - 1].dtend.setMinutes(cl[i - 1].dtend.getMinutes() + 5));
+        let midEnd = new Date(c.dtstart.setMinutes(c.dtstart.getMinutes() - 5));
+        let hourStart1 = midStart.getHours() > 12 ? midStart.getHours() - 12 : midStart.getHours();
+        let hourEnd1 = midEnd.getHours() > 12 ? midEnd.getHours() - 12 : midEnd.getHours();
+        let minStart1 = midStart.getMinutes() < 10 ? `0${ midStart.getMinutes() }` : midStart.getMinutes();
+        let minEnd1 = midEnd.getMinutes() < 10 ? `0${ midEnd.getMinutes() }` : midEnd.getMinutes();
+        html += `
+          <tr>
+            <td class="times mins${ mDiff(midStart, midEnd) }">${ hourStart1 }:${ minStart1 }-${ hourEnd1 }:${ minEnd1 }</td>
+            <td class="period mins${ mDiff(midStart, midEnd) }">
+              <span class="coursename">Free</span>
+            </td>
+          </tr>
+        `;
+      }
+    }
+    html += `
+      <tr>
+        <td class="times mins${ mDiff(c.dtstart, c.dtend) }">${ hourStart }:${ minStart }-${ hourEnd }:${ minEnd }</td>
+        <td class="period mins${ mDiff(c.dtstart, c.dtend) }" style="background: ${ colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]] };">
+          <span class="coursename">${ c.summary[0] }</span>
+          <br>
+          <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+        </td>
+      </tr>
+    `;
+  });
+  return html;
+};
