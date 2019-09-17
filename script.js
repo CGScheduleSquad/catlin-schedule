@@ -93,6 +93,15 @@ const addClasses = (cl, i) => {
         el.setAttribute('rowspan', 2);
       }
       break;
+    case '11:20':
+      el = document.getElementById(`${ i }-6`);
+      el.style.background = colors[0];
+      el.innerHTML = `
+        <span class="coursename">${ cl.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ cl.description.room }${ cl.summary[1] !== undefined ? ` - ${ cl.summary[1] }` : '' }</span>
+      `;
+    	break;
     case '13:10':
       el = document.getElementById(`${ i }-9`);
       el.style.background = colors[cl.description.block[1] === 'X' ? 0 : cl.description.block[0]];
@@ -128,7 +137,7 @@ const addClasses = (cl, i) => {
   // TODO: Simplify switch
 };
 
-// Add classes on special days
+// Add classes on special days (unused right now)
 const addSpecialClasses = cl => {
   let html = '';
   cl.forEach((c, i) => {
@@ -167,6 +176,80 @@ const addSpecialClasses = cl => {
   });
   return html;
 };
+
+// Add classes on late start days
+const addLateClasses = cl => cl.forEach(c => {
+  let el;
+  switch (`${ c.dtstart.getHours() }:${ c.dtstart.getMinutes() }`) {
+    case '9:0':
+      el = document.getElementById(`late-0`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      if (c.dtend.getMinutes() === 10) {
+        document.getElementById(`late-1`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
+      break;
+    case '10:30':
+      el = document.getElementById(`late-3`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      break;
+    case '11:20':
+      el = document.getElementById(`late-4`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      if (c.dtend.getMinutes() === 30) {
+        document.getElementById(`late-5`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
+      break;
+    case '13:15':
+      el = document.getElementById(`late-7`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      if (c.dtend.getMinutes() === 30) {
+        document.getElementById(`late-8`).style.display = 'none';
+        el.setAttribute('rowspan', 2);
+      }
+      break;
+    case '13:40':
+      el = document.getElementById(`late-8`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      break;
+    case '14:30':
+      el = document.getElementById(`late-9`);
+      el.style.background = colors[c.description.block[1] === 'X' ? 0 : c.description.block[0]];
+      el.innerHTML = `
+        <span class="coursename">${ c.summary[0] }</span>
+        <br>
+        <span class="subtitle">${ c.description.room }${ c.summary[1] !== undefined ? ` - ${ c.summary[1] }` : '' }</span>
+      `;
+      break;
+  }
+  // TODO: Simplify switch
+});
 
 // Parses location.search
 const getQuery = () => {
@@ -236,9 +319,7 @@ window.addEventListener('load', () => {
         day.firstChild.innerText = `${ day.innerText } ${ months[days[i].getMonth()] } ${ days[i].getDate() }${ letters[i] }`;
       }
     });
-    classes.forEach((day, i) => {
-      day.forEach(cl => addClasses(cl, i));
-    });
+    classes.forEach((day, i) => day.forEach(cl => addClasses(cl, i)));
     events.student.forEach(a => {
       if (a.summary.includes('(Late Start')) {
         let late = a.summary[a.summary.length - 2];
@@ -253,10 +334,50 @@ window.addEventListener('load', () => {
                     <tr>
                       <td colspan="12" class="period mins60">Late Start</td>
                     </tr>
-                    ${ addSpecialClasses(classes[i]) }
+                    <tr class="mins45">
+                      <td class="times mins45">9:00-9:45</td>
+                      <td class="period mins45" id="late-0">Free</td>
+                    </tr>
+                    <tr class="mins25">
+                      <td class="times mins25">9:45-10:10</td>
+                      <td class="period mins45" id="late-1">Free<span class="subtitle"> - Early Flex</span></td>
+                    </tr>
+                    <tr class="mins20">
+                      <td class="times mins20">10:10-10:30</td>
+                      <td class="period mins45" id="late-2">Break</td>
+                    </tr>
+                    <tr class="mins45">
+                      <td class="times mins45">10:30-11:15</td>
+                      <td class="period mins45" id="late-3">Free</td>
+                    </tr>
+                    <tr class="mins45">
+                      <td class="times mins45">11:20-12:05</td>
+                      <td class="period mins45" id="late-4">Free</td>
+                    </tr>
+                    <tr class="mins25">
+                      <td class="times mins25">12:05-12:30</td>
+                      <td class="period mins45" id="late-5">Free<span class="subtitle"> - AM Flex</span></td>
+                    </tr>
+                    <tr class="mins40">
+                      <td class="times mins40">12:30-1:10</td>
+                      <td class="period mins45" id="late-6">Lunch</td>
+                    </tr>
+                    <tr class="mins25">
+                      <td class="times mins25">1:15-1:40</td>
+                      <td class="period mins45" id="late-7">Free<span class="subtitle"> - PM Flex</span></td>
+                    </tr>
+                    <tr class="mins45">
+                      <td class="times mins45">1:40-2:25</td>
+                      <td class="period mins45" id="late-8">Free</td>
+                    </tr>
+                    <tr class="mins45">
+                      <td class="times mins45">2:30-3:15</td>
+                      <td class="period mins45" id="late-9">Free</td>
+                    </tr>
                   </tbody>
                 </table>
               `;
+              addLateClasses(classes[i]);
             } else {
               el.style.display = 'none';
             }
@@ -268,7 +389,7 @@ window.addEventListener('load', () => {
           case '9:15':
             el = document.getElementById(`${ a.dtstart.getDay() - 1 }-2`);
             el.style.background = colors[0];
-            el.innerHTML = a.summary;
+            el.innerHTML = a.summary; // TODO: Add location
             if (a.dtend.getMinutes() === 45) {
               document.getElementById(`${ a.dtstart.getDay() - 1 }-3`).style.display = 'none';
               el.setAttribute('rowspan', 2);
@@ -277,7 +398,7 @@ window.addEventListener('load', () => {
           case '11:55':
             el = document.getElementById(`${ a.dtstart.getDay() - 1 }-7`);
             el.style.background = colors[0];
-            el.innerHTML = `<span class="coursename">${ a.summary }</span>`;
+            el.innerHTML = `<span class="coursename">${ a.summary }</span>`; // TODO: Add location
             break;
         }
       }
