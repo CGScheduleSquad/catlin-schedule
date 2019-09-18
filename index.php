@@ -9,6 +9,7 @@
   <meta http-equiv="pragma" content="no-cache">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="shortcut icon" href="https://inside.catlin.edu/scripts/sched/favicon.ico">
+  <link rel="apple-touch-icon" href="https://inside.catlin.edu/scripts/sched/favicon.ico">
   <?php
     $str = '<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css>';
     echo isset($_GET['schedules']) ? '' : $str;
