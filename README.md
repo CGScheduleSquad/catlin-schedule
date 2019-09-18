@@ -39,3 +39,5 @@ We may terminate your access to the site, without cause or notice. All provision
 
 ### Notification of Changes
 The Service reserves the right to change these conditions from time to time as it sees fit and your continued use of the site will signify your acceptance of any adjustment to these terms. If there are any changes to our privacy policy, we will announce that these changes have been made on our home page. If there are any changes in how we use our site customers' Personally Identifiable Information, notification by email or postal mail will be made to those affected by the change. Any changes to our privacy policy will be posted on our site 30 days prior to these changes taking place. You are therefore advised to re-read this statement on a regular basis.
+
+*CGS Schedule is not sponsored, recognized, nor endorsed by the Catlin Gabel School or its affiliates.*

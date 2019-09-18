@@ -386,6 +386,7 @@ window.addEventListener('load', () => {
     document.getElementById('login').style.display = '';
     M.AutoInit();
     M.Modal.getInstance(document.getElementById('login')).open();
+    document.getElementsByClassName('to-terms')[0].addEventListener('click', () => M.Modal.getInstance(document.getElementById('terms').open()));
     document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
   }
 });
