@@ -45,33 +45,33 @@
       <button class="modal-close waves-effect waves-green btn-flat to-terms">Submit</button>
     </div>
   </div>
-    <div id="terms" class="modal">
-      <div class="modal-content">
-        <h4>Terms and Conditions</h4>
-        <br>
-        <p>By accessing and using CGS Schedule (henceforth referred to as "the Site" or "the Service"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services. Any participation in the Service will constitute acceptance of this agreement. If you do not agree to abide by the above, please do not use the Service.</p>
-        <br>
-        <h5>What Personal Information We Collect</h5>
-        <p>The Site does not collect any personal information. If you choose to use the Service, we ask you to provide limited personal information (i.e. calendar feeds), but we do not collect this information.</p>
-        <br>
-        <h5>Cookies Policy</h5>
-        <p>The Site uses a standard technology called "cookies" to collect information about how our site is used. Cookies were designed to help a website operator determine that a particular user had visited the site previously and thus save and remember any preferences that may have been set. We may make use of “persistent or memory based” cookies, which remain on your computer’s hard drive until you delete them to improve user experience with the Site. Examples include our use of these cookies to pre-populate forms you complete on our website based on information you have previously provided to us and to provide access to class schedules in a timely manner. Although you have the ability to modify your browser to either accept all cookies, notify you when a cookie is sent, or reject all cookies, it may not be possible to utilize the Service if you reject cookies.</p>
-        <br>
-        <h5>Limitations of Liability</h5>
-        <p>The Site and its components are offered for informational purposes only; the Site shall not be responsible or liable for the accuracy, usefulness or availability of any information transmitted or made available via the Site, and shall not be responsible or liable for any error or omissions in that information. The Service is not responsible for any infraction committed against Catlin Gabel School policy as dictated in the Commitment Statement as a result of misuse of the Service or errors or omissions in the information provided by the Service. The Site is also not responsible for any personal information made public as a result of the Service, including but not limited to calendar feeds for class and student schedules.</p>
-				<br>
-        <h5>Termination</h5>
-        <p>We may terminate your access to the site, without cause or notice. All provisions of this Agreement that, by their nature, should survive termination shall survive termination.</p>
-				<br>
-        <h5>Notification of Changes</h5>
-        <p>The Service reserves the right to change these conditions from time to time as it sees fit and your continued use of the site will signify your acceptance of any adjustment to these terms. If there are any changes to our privacy policy, we will announce that these changes have been made on our home page. If there are any changes in how we use our site customers' Personally Identifiable Information, notification by email or postal mail will be made to those affected by the change. Any changes to our privacy policy will be posted on our site 30 days prior to these changes taking place. You are therefore advised to re-read this statement on a regular basis.</p>
-        <br>
-        <i>CGS Schedule is not sponsored, recognized, nor endorsed by the Catlin Gabel School or its affiliates.</i>
-      </div>
-      <div class="modal-footer">
-        <button class="modal-close waves-effect waves-green btn-flat submit-url">Accept</button>
-      </div>
+  <div id="terms" class="modal">
+    <div class="modal-content">
+      <h4>Terms and Conditions</h4>
+      <br>
+      <p>By accessing and using CGS Schedule (henceforth referred to as "the Site" or "the Service"), you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services. Any participation in the Service will constitute acceptance of this agreement. If you do not agree to abide by the above, please do not use the Service.</p>
+      <br>
+      <h5>What Personal Information We Collect</h5>
+      <p>The Site does not collect any personal information. If you choose to use the Service, we ask you to provide limited personal information (i.e. calendar feeds), but we do not collect this information.</p>
+      <br>
+      <h5>Cookies Policy</h5>
+      <p>The Site uses a standard technology called "cookies" to collect information about how our site is used. Cookies were designed to help a website operator determine that a particular user had visited the site previously and thus save and remember any preferences that may have been set. We may make use of “persistent or memory based” cookies, which remain on your computer’s hard drive until you delete them to improve user experience with the Site. Examples include our use of these cookies to pre-populate forms you complete on our website based on information you have previously provided to us and to provide access to class schedules in a timely manner. Although you have the ability to modify your browser to either accept all cookies, notify you when a cookie is sent, or reject all cookies, it may not be possible to utilize the Service if you reject cookies.</p>
+      <br>
+      <h5>Limitations of Liability</h5>
+      <p>The Site and its components are offered for informational purposes only; the Site shall not be responsible or liable for the accuracy, usefulness or availability of any information transmitted or made available via the Site, and shall not be responsible or liable for any error or omissions in that information. The Service is not responsible for any infraction committed against Catlin Gabel School policy as dictated in the Commitment Statement as a result of misuse of the Service or errors or omissions in the information provided by the Service. The Site is also not responsible for any personal information made public as a result of the Service, including but not limited to calendar feeds for class and student schedules.</p>
+			<br>
+      <h5>Termination</h5>
+      <p>We may terminate your access to the site, without cause or notice. All provisions of this Agreement that, by their nature, should survive termination shall survive termination.</p>
+			<br>
+      <h5>Notification of Changes</h5>
+      <p>The Service reserves the right to change these conditions from time to time as it sees fit and your continued use of the site will signify your acceptance of any adjustment to these terms. If there are any changes to our privacy policy, we will announce that these changes have been made on our home page. If there are any changes in how we use our site customers' Personally Identifiable Information, notification by email or postal mail will be made to those affected by the change. Any changes to our privacy policy will be posted on our site 30 days prior to these changes taking place. You are therefore advised to re-read this statement on a regular basis.</p>
+      <br>
+      <i>CGS Schedule is not sponsored, recognized, nor endorsed by the Catlin Gabel School or its affiliates.</i>
     </div>
+    <div class="modal-footer">
+      <button class="modal-close waves-effect waves-green btn-flat submit-url">Accept</button>
+    </div>
+  </div>
   <div id="schedule">
     <table class="controls">
       <tbody>
