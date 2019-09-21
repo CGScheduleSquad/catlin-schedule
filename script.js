@@ -437,6 +437,13 @@ function doSchedule(raw) {
 
 function onFail() {
   document.getElementById('login').style.display = '';
+  var head  = document.getElementsByTagName('head')[0];
+  var link  = document.createElement('link');
+  link.rel  = 'stylesheet';
+  link.type = 'text/css';
+  link.href = 'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css';
+  link.media = 'all';
+  head.appendChild(link);
   M.AutoInit();
   M.Modal.getInstance(document.getElementById('login')).open();
     document.getElementsByClassName('to-terms')[0].addEventListener('click', () => M.Modal.getInstance(document.getElementById('terms')).open());
