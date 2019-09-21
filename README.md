@@ -6,7 +6,7 @@
 ![student-veracross](./images/student-veracross.png)
 3. Copy link address of the *Class Schedules* and save the link somewhere temporarily.
  ![class-veracross](./images/class-veracross.png)
-3. Visit this [page](https://cgscomwww.catlin.edu/pengt/catlin-schedule/index.php).
+3. Visit this [page](https://cgschedulesquad.github.io/catlin-schedule/).
 4. Paste the *Class Schedules* link in the upper input field.
 5. Paste the *Student Calendar* in the lower input field.
 6. Click `Submit`.
