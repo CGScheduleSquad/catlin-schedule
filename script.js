@@ -410,8 +410,26 @@ function doSchedule(raw) {
       }
     });
     document.getElementById('schedule').style.display = 'block';
-    document.getElementById('forwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() + 7) }`);
-    document.getElementById('backwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() - 7) }`);
+
+    let search = getQuery();
+    document.getElementById('forwards').addEventListener('click', () => {
+      let monday = days[0].setDate(days[0].getDate() + 7);
+      if (search.date === undefined) {
+        location.search = `${ location.search }&date=${ monday }`;
+      } else {
+        location.search = `?schedules=${ search.schedules }&student=${ search.student }&date=${ monday }`;
+      }
+    });
+    document.getElementById('backwards').addEventListener('click', () => {
+      let monday = days[0].setDate(days[0].getDate() - 7);
+      if (search.date === undefined) {
+        location.search = `${ location.search }&date=${ monday }`;
+      } else {
+        location.search = `?schedules=${ search.schedules }&student=${ search.student }&date=${ monday }`;
+      }
+    });
+
+    document.getElementById('this-week').firstElementChild.setAttribute('href', `${ location.pathname }?schedules=${ search.schedules }&student=${ search.student }`);
   } catch {
     onFail();
   }
@@ -421,7 +439,8 @@ function onFail() {
   document.getElementById('login').style.display = '';
   M.AutoInit();
   M.Modal.getInstance(document.getElementById('login')).open();
-  document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
+    document.getElementsByClassName('to-terms')[0].addEventListener('click', () => M.Modal.getInstance(document.getElementById('terms')).open());
+    document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
 }
 
 // Add classes on special days (unused right now)
