@@ -229,20 +229,50 @@ const getQuery = () => {
 let today = getQuery().date !== undefined ? new Date(parseInt(getQuery().date)) : new Date();
 let days = [];
 
+function corsGetPromise(url) {
+  return new Promise((resolve, reject) => {
+    jQuery.get("https://cors-anywhere.herokuapp.com/" + url, function (raw) {
+      resolve(raw)
+    }).fail(function () {
+      reject();
+    });
+  })
+}
+
 // All rendering happens here
 window.addEventListener('load', () => {
   try {
-    let letters = [];
-    let classes = [[], [], [], [], []];
     for (let i = 1 - today.getDay(); i < 7 - today.getDay(); i++) {
       let temp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0);
       temp.setDate(today.getDate() + i);
       days.push(temp);
     }
-    let raw = {
-      schedules: document.getElementsByClassName('ical')[0].innerText.trim(),
-      student: document.getElementsByClassName('ical')[1].innerText.trim()
-    };
+
+
+    let schedulesURL = new URL(window.location.href).searchParams.get("schedules").replace("webcal", "http");
+    let studentURL = new URL(window.location.href).searchParams.get("student").replace("webcal", "http");
+
+    if (studentURL == null || schedulesURL == null) {
+      onFail();
+      return;
+    }
+
+    Promise.all([corsGetPromise(schedulesURL), corsGetPromise(studentURL)]).then(results => {
+      let raw = {
+        schedules: results[0],
+        student: results[1]
+      };
+      doSchedule(raw);
+    });
+  } catch {
+    onFail();
+  }
+});
+
+function doSchedule(raw) {
+  try {
+    let letters = [];
+    let classes = [[], [], [], [], []];
     document.getElementsByClassName('ical')[0].innerText = '';
     document.getElementsByClassName('ical')[1].innerText = '';
 
@@ -383,12 +413,16 @@ window.addEventListener('load', () => {
     document.getElementById('forwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() + 7) }`);
     document.getElementById('backwards').addEventListener('click', () => location.search = `${ location.search }&date=${ days[0].setDate(days[0].getDate() - 7) }`);
   } catch {
-    document.getElementById('login').style.display = '';
-    M.AutoInit();
-    M.Modal.getInstance(document.getElementById('login')).open();
-    document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
+    onFail();
   }
-});
+}
+
+function onFail() {
+  document.getElementById('login').style.display = '';
+  M.AutoInit();
+  M.Modal.getInstance(document.getElementById('login')).open();
+  document.getElementsByClassName('submit-url')[0].addEventListener('click', () => location.search = `?schedules=${ document.getElementById('schedules').value }&student=${ document.getElementById('student').value }`);
+}
 
 // Add classes on special days (unused right now)
 const addSpecialClasses = cl => {
